@@ -42,7 +42,7 @@ export default function PaymentModal({ isOpen, onClose, onComplete, amount, acti
                             取消支付
                         </button>
                         <button className="complete-button" onClick={onComplete}>
-                            支付完成
+                            完成支付
                         </button>
                     </div>
                 </div>
