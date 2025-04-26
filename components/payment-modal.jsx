@@ -1,52 +1,34 @@
 "use client"
+import Image from "next/image"
 
-import { useState, useEffect } from "react"
+export default function PaymentModal({ isOpen, onClose, onComplete, amount, outTradeNo }) {
+  if (!isOpen) return null
 
-export default function PaymentModal({ isOpen, onClose, onComplete, amount, actionType }) {
-    const [isVisible, setIsVisible] = useState(false)
-
-    useEffect(() => {
-        if (isOpen) {
-            setIsVisible(true)
-        } else {
-            const timer = setTimeout(() => {
-                setIsVisible(false)
-            }, 300)
-            return () => {
-                clearTimeout(timer)
-            }
-        }
-    }, [isOpen])
-
-    if (!isOpen && !isVisible) return null
-
-    return (
-        <div className="modal-overlay" style={{ opacity: isOpen ? 1 : 0 }} onClick={onClose}>
-            <div
-                className="modal-container"
-                style={{ transform: isOpen ? "scale(1)" : "scale(0.95)" }}
-                onClick={(e) => {
-                    e.stopPropagation()
-                }}
-            >
-                <div className="modal-content">
-                    <h2 className="modal-title">请扫码支付</h2>
-                    <p className="modal-amount">支付金额 ¥{amount}</p>
-
-                    <div className="qr-code">
-                        <div className="qr-code-text">二维码</div>
-                    </div>
-
-                    <div className="modal-buttons">
-                        <button className="cancel-button" onClick={onClose}>
-                            取消支付
-                        </button>
-                        <button className="complete-button" onClick={onComplete}>
-                            完成支付
-                        </button>
-                    </div>
-                </div>
-            </div>
+  return (
+    <div id="paymentModal" className="modal">
+      <div className="modal-content">
+        <h2>请扫码支付</h2>
+        <br />
+        <p id="paymentAmount" style={{ color: "red" }}>
+          支付金额：￥{amount}
+        </p>
+        <Image
+          src="https://picx.zhimg.com/80/v2-c6fdaba20fb939f99e4051d23c30ae06_1440w.jpeg"
+          alt="支付二维码"
+          className="qr-code"
+          width={200}
+          height={200}
+        />
+        <p id="outTradeNo">{outTradeNo}</p>
+        <div className="button-group">
+          <button id="cancelPayment" onClick={onClose}>
+            取消支付
+          </button>
+          <button id="completePayment" onClick={onComplete}>
+            支付完成
+          </button>
         </div>
-    )
+      </div>
+    </div>
+  )
 }
